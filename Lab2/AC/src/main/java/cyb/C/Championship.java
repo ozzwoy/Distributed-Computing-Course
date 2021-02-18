@@ -20,7 +20,7 @@ public class Championship {
 
     public static void main(String[] args) {
         List<Integer> qiEnergies = generateMonks();
-        Integer winner = new ForkJoinPool().invoke(new Fight(qiEnergies, 0, NUM_OF_MONKS - 1));
+        Integer winner = new ForkJoinPool().invoke(new Duel(qiEnergies, 0, NUM_OF_MONKS - 1));
         System.out.println("BODHISATTVA STATUE GOES TO " + winner + "! CONGRATULATIONS!");
     }
 }

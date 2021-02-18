@@ -30,7 +30,7 @@ func nechyporchuk(price int, pnChannel chan int, endChannel chan bool) {
 	endChannel <- true
 }
 
-func getGoods(count int) []int {
+func createGoods(count int) []int {
 	result := make([]int, count)
 	for i := 0; i < count; i++ {
 		result[i] = i + 1
@@ -41,7 +41,7 @@ func getGoods(count int) []int {
 func main() {
 	count := 20
 	price := 3
-	goods := getGoods(count)
+	goods := createGoods(count)
 	ipChannel := make(chan int)
 	pnChannel := make(chan int)
 	endChannel := make(chan bool)
