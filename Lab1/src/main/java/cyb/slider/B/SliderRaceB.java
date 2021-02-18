@@ -19,9 +19,9 @@ public class SliderRaceB {
     private JButton stopButton1;
     private JButton startButton2;
     private JButton stopButton2;
-    Thread thread1;
-    Thread thread2;
-    AtomicInteger semaphore;
+    private final Thread thread1;
+    private final Thread thread2;
+    private final AtomicInteger semaphore;
 
     public SliderRaceB() {
         semaphore = new AtomicInteger(0);
@@ -47,7 +47,6 @@ public class SliderRaceB {
 
         stopButton1.addActionListener(e -> {
             thread1.interrupt();
-            semaphore.set(0);
             stopButton1.setEnabled(false);
             messageLabel.setText("Message: thread #1 was terminated and released semaphore.");
         });
@@ -63,11 +62,10 @@ public class SliderRaceB {
             startButton2.setEnabled(false);
             stopButton2.setEnabled(true);
             messageLabel.setText("Message: thread #2 started and acquired semaphore.");
-        }));
+        }).start());
 
         stopButton2.addActionListener(e -> {
             thread2.interrupt();
-            semaphore.set(0);
             stopButton2.setEnabled(false);
             messageLabel.setText("Message: thread #2 was terminated and released semaphore.");
         });

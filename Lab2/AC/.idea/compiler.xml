@@ -6,8 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="DC-2021-Lab-1" />
-        <module name="DC-2021-Lab-1.1" />
+        <module name="DS-2021-Lab-2.2" />
       </profile>
     </annotationProcessing>
   </component>

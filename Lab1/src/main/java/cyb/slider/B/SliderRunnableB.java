@@ -17,8 +17,11 @@ public class SliderRunnableB implements Runnable {
 
     @Override
     public void run() {
-        if (!Thread.interrupted() && semaphore.compareAndSet(0, 1)) {
-            slider.setValue(operator.apply(slider.getValue()));
+        if (semaphore.compareAndSet(0, 1)) {
+            while (!Thread.interrupted()) {
+                slider.setValue(operator.apply(slider.getValue()));
+            }
+            semaphore.set(0);
         }
     }
 }
