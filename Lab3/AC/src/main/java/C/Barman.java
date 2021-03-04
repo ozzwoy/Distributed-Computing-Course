@@ -2,19 +2,16 @@ package C;
 
 import java.util.Arrays;
 import java.util.Random;
-import java.util.concurrent.Semaphore;
 
 public class Barman extends Thread {
     private final int times;
     private final Table table;
-    private final Semaphore isSmokerSmoking;
-    private final Semaphore isBarmanWorking;
+    private final Semaphores semaphores;
 
-    public Barman(int times, Table table, Semaphore isSmokerSmoking, Semaphore isBarmanWorking) {
+    public Barman(int times, Table table, Semaphores semaphores) {
         this.times = times;
         this.table = table;
-        this.isSmokerSmoking = isSmokerSmoking;
-        this.isBarmanWorking = isBarmanWorking;
+        this.semaphores = semaphores;
     }
 
     @Override
@@ -23,7 +20,7 @@ public class Barman extends Thread {
 
         for (int i = 0; i < times; i++) {
             try {
-                isBarmanWorking.acquire();
+                semaphores.isBarmanWorking.acquire();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -36,21 +33,22 @@ public class Barman extends Thread {
                         table.putPaper();
                         table.putMatches();
                         System.out.println("Barman put paper and matches.");
+                        semaphores.isSmokerWithTobaccoSmoking.release();
                     }
                     case PAPER_KEEPER -> {
                         table.putTobacco();
                         table.putMatches();
                         System.out.println("Barman put tobacco and matches.");
+                        semaphores.isSmokerWithPaperSmoking.release();
                     }
                     case MATCHES_KEEPER -> {
                         table.putTobacco();
                         table.putPaper();
                         System.out.println("Barman put tobacco and paper.");
+                        semaphores.isSmokerWithMatchesSmoking.release();
                     }
                 }
             }
-
-            isSmokerSmoking.release();
         }
     }
 }

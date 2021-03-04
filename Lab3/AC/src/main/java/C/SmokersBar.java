@@ -1,23 +1,34 @@
 package C;
 
+import C.smokers.SmokerWithMatches;
+import C.smokers.SmokerWithPaper;
+import C.smokers.SmokerWithTobacco;
+
 import java.util.concurrent.Semaphore;
 
 public class SmokersBar {
 
     public static void main(String[] args) {
         Table table = new Table();
-        Semaphore isSmokerSmoking = new Semaphore(1);
+
+        Semaphore isSmokerWithTobaccoSmoking = new Semaphore(1);
+        Semaphore isSmokerWithPaperSmoking = new Semaphore(1);
+        Semaphore isSmokerWithMatchesSmoking = new Semaphore(1);
         Semaphore isBarmanWorking = new Semaphore(1);
         try {
-            isSmokerSmoking.acquire();
+            isSmokerWithTobaccoSmoking.acquire();
+            isSmokerWithPaperSmoking.acquire();
+            isSmokerWithMatchesSmoking.acquire();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        Semaphores semaphores = new Semaphores(isSmokerWithTobaccoSmoking, isSmokerWithPaperSmoking,
+                                               isSmokerWithMatchesSmoking, isBarmanWorking);
 
-        Thread barman = new Barman(5, table, isSmokerSmoking, isBarmanWorking);
-        Thread tobacco_keeper = new Smoker(SmokerType.TOBACCO_KEEPER, table, isSmokerSmoking, isBarmanWorking);
-        Thread paper_keeper = new Smoker(SmokerType.PAPER_KEEPER, table, isSmokerSmoking, isBarmanWorking);
-        Thread matches_keeper = new Smoker(SmokerType.MATCHES_KEEPER, table, isSmokerSmoking, isBarmanWorking);
+        Thread barman = new Barman(5, table, semaphores);
+        Thread tobacco_keeper = new SmokerWithTobacco(table, semaphores);
+        Thread paper_keeper = new SmokerWithPaper(table, semaphores);
+        Thread matches_keeper = new SmokerWithMatches(table, semaphores);
 
         tobacco_keeper.start();
         paper_keeper.start();
