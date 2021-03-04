@@ -1,7 +1,6 @@
 package A;
 
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class FeastForPooh {
     private static final int TIMES = 5;
@@ -9,7 +8,6 @@ public class FeastForPooh {
     private static final int NUM_OF_BEES = 5;
 
     public static void main(String[] args) {
-        AtomicInteger count = new AtomicInteger(0);
         HoneyPot pot = new HoneyPot(POT_CAPACITY);
         Semaphore isPotBeingServed = new Semaphore(1);
         Semaphore isPoohEating = new Semaphore(1);
@@ -19,7 +17,7 @@ public class FeastForPooh {
             e.printStackTrace();
         }
 
-        Pooh pooh = new Pooh(TIMES, count, pot, isPotBeingServed, isPoohEating);
+        Pooh pooh = new Pooh(TIMES, pot, isPotBeingServed, isPoohEating);
         Thread[] bees = new Bee[NUM_OF_BEES];
         for (int i = 0; i < NUM_OF_BEES; i++) {
             bees[i] = new Bee(pot, isPotBeingServed, isPoohEating);
@@ -27,7 +25,12 @@ public class FeastForPooh {
         }
         pooh.start();
 
-        while (count.get() != TIMES);
+        try {
+            pooh.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         for (Thread bee : bees) {
             bee.interrupt();
         }
