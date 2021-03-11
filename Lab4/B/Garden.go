@@ -51,7 +51,6 @@ func nature(garden Garden, mutex* sync.RWMutex, end* bool) {
 			garden.plants[rand.Int() % len(garden.plants)][rand.Int() % len(garden.plants)] = true
 		}
 		mutex.Unlock()
-		time.Sleep(time.Millisecond * 300)
 	}
 }
 
@@ -64,7 +63,6 @@ func gardener(garden Garden, mutex* sync.RWMutex, end* bool) {
 			}
 		}
 		mutex.Unlock()
-		time.Sleep(time.Millisecond * 500)
 	}
 }
 
@@ -73,7 +71,6 @@ func printStatusToConsole(garden Garden, mutex* sync.RWMutex, end* bool) {
 		mutex.RLock()
 		fmt.Println(garden.toString())
 		mutex.RUnlock()
-		time.Sleep(time.Millisecond * 100)
 	}
 }
 
@@ -83,7 +80,6 @@ func printStatusToFile(file* os.File, garden Garden, mutex* sync.RWMutex, end* b
 		_, err := file.WriteString(garden.toString())
 		check(err)
 		mutex.RUnlock()
-		time.Sleep(time.Millisecond * 100)
 	}
 }
 
@@ -99,6 +95,6 @@ func main() {
 	go nature(garden, &mutex, &end)
 	go gardener(garden, &mutex, &end)
 
-	time.Sleep(time.Second * 3)
+	time.Sleep(time.Millisecond * 100)
 	end = true
 }
