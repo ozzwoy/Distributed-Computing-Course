@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<cns:warehouse xmlns:cns="http://www.example.com/warehouse">
+    <section id="0">
+        <name>Furniture</name>
+        <items>
+            <item id="0">
+                <name>Wooden Bed</name>
+                <price>50</price>
+            </item>
+            <item id="1">
+                <name>Wooden Table</name>
+                <price>39</price>
+            </item>
+        </items>
+    </section>
+    <section id="1">
+        <name>Cans</name>
+        <items>
+            <item id="2">
+                <name>SPAM</name>
+                <price>8</price>
+            </item>
+            <item id="3">
+                <name>Mackerel in tomato sauce</name>
+                <price>5</price>
+            </item>
+        </items>
+    </section>
+    <section id="2">
+        <name>Vinyls</name>
+        <items>
+            <item id="4">
+                <name>Ray of Light by Madonna</name>
+                <price>14</price>
+            </item>
+            <item id="5">
+                <name>A Night at the Opera by Queen</name>
+                <price>14</price>
+            </item>
+        </items>
+    </section>
+</cns:warehouse>
